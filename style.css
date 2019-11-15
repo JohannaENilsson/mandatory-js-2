@@ -1,0 +1,38 @@
+body{
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+}
+main {
+    height: 100vh;
+    background-color: yellow;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#gamefield {
+    width: 500px;
+    height: 500px;
+    background-color: hotpink;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: space-around;
+}
+
+
+.square {
+    width: 150px;
+    height: 150px;
+    background-color: white;
+}
+
+button {
+    width: 100px;
+    height: 40px;
+}
