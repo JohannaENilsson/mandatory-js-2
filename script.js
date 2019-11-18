@@ -4,11 +4,16 @@ let squares = document.querySelectorAll(".square");
 // console.log(squares);
 
 /// SEN if arr.length < 5 return. ingen kan vinna innan 5 drag
+// Behöver en arr med den vinnande kombinationerna.
+// Behöver se vilken av squares[i] som blivit tryckt på
+// 2 tomma arrayer för x  o att pusha upp när knapp blivit tryckt på
+// jämföra med den vinnande arrayen.
 
 let gameOn = false; // Spelet är inte igång än
+let clickArr = []; // sparar clicken
 
 // PLAY -> Spelet startar
-function play(e){
+function play(){
     gameOn = true;
     // console.log(`play call`);
 }
@@ -17,7 +22,7 @@ function play(e){
 function setUp(){
     for(let i = 0; i < squares.length; i++) { 
         squares[i].addEventListener(`click`, oneClick); // Sätter dit eventlyssnare på alla
-        clickArr = [];
+        clickArr = []; // tömmer arrayen
     }
 }
 
@@ -31,14 +36,13 @@ function witchPlayer(){
         player = `x`;
     }
 }
-let clickArr = [];
+
 //Click
 function oneClick(e){
     let square = e.target; // Lussnar på vilken ruta som blivit clickad på
     //console.log(`Every click ${square}`);
     clickArr.push(square);
     console.log(clickArr);
-
 
     witchPlayer();
     if (player === "x") {
@@ -54,7 +58,7 @@ function oneClick(e){
     }
     if(isGameOver() === true){  // om någon retunerar true
         endGame(); // stängs spelet av
-    } else if (clickArr.length > 8) {
+    } else if (clickArr.length > 8) { // om arrayen är fyld med mer än 8, startas itsATie
         itsATie();
     }
 }
@@ -67,9 +71,6 @@ function resetSquares(){
     }
 }
 resetBtn.addEventListener(`click`, resetSquares);
-
-
-
 
 // WINNER OF THE GAME
  function isGameOver() {
@@ -198,9 +199,8 @@ function itsATie(){
         play()
     } else {
         alert(`Don't be a sore loser`);
+        gameOn = false;
     } 
-    //Alla rutor blivit clickade
-    console.log(`It´s a tie`);
 }
 
   // ENDGAME
@@ -208,14 +208,14 @@ function endGame(){
     // console.log(`End game`);
     gameOn = false; // spelet är av
     if (confirm(`${player} won the game. Do you wanna play again?`)) {
-            resetSquares();
-            setUp();
-            play()
-        } else {
-            alert(`Don't be a sore loser`);
-        }   
+        resetSquares();
+        setUp();
+        play()
+    } else {
+        alert(`Don't be a sore loser`);
+        gameOn = false;
+    }   
 }
 
-
-setUp(); 
-play();
+setUp(); // sätter dit eventlyssnarna
+play(); // startar spelet

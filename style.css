@@ -1,24 +1,28 @@
 body{
     margin: 0;
+    background-image: url(marble.jpg);
+    background-color: rgba(0, 0, 0, 0.507);
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 h1 {
     text-align: center;
+    color: rgba(245, 245, 245, 0.377);
+    font-size: 110px;
+    margin: 30px;
 }
 main {
     height: 100vh;
-    background-color: yellow;
     display: flex;
     flex-wrap: nowrap;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
 }
 
 #gamefield {
     width: 500px;
     height: 500px;
-    background-color: hotpink;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -36,6 +40,11 @@ main {
 }
 
 button {
-    width: 100px;
-    height: 40px;
+    font-size: 30px;
+    width: 200px;
+    height: 60px;
+    margin: 25px;
+    background-color: rgba(245, 245, 245, 0.377);
+    font-weight: bolder;
+    border: none;
 }
