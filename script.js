@@ -29,7 +29,7 @@ function setUp(){
 // WITCH PLAYER
 let player = `x`;
 function witchPlayer(){
-    // console.log(`WitchPlayer`);
+    console.log(`WitchPlayer`);
     if(player === `x`){
         player = `o`;
     } else if(player === `o`) {
@@ -40,25 +40,24 @@ function witchPlayer(){
 //Click
 function oneClick(e){
     let square = e.target; // Lussnar på vilken ruta som blivit clickad på
-    //console.log(`Every click ${square}`);
+    console.log(`Every click ${square}`);
     clickArr.push(square);
-    console.log(clickArr);
+    // console.log(clickArr);
 
     witchPlayer();
     if (player === "x") {
         square.innerHTML = "X";
-        // console.log(`Draw X`);
+        console.log(`Draw X`);
     } else if (player === "o") {
         square.innerHTML = "O";    
-        // console.log(`Draw O`);
+        console.log(`Draw O`);
     }
-    // console.log(`Click function`, gameOn);
+    console.log(`Click function`, gameOn);
     if(gameOn === false) { // om detta händer ska den inte gå vidare
         return;
-    }
-    if(isGameOver() === true){  // om någon retunerar true
+    } if (isGameOver() === true){  // om någon retunerar true
         endGame(); // stängs spelet av
-    } else if (clickArr.length > 8) { // om arrayen är fyld med mer än 8, startas itsATie
+    } if (clickArr.length > 8) { // om arrayen är fyld med mer än 8, startas itsATie
         itsATie();
     }
 }
@@ -67,7 +66,7 @@ function oneClick(e){
 function resetSquares(){
     for(let square of squares){
     square.innerHTML = ``; // rensar alla rutorna på innehåll
-    // console.log(square);
+    console.log(square);
     }
 }
 resetBtn.addEventListener(`click`, resetSquares);
@@ -191,30 +190,39 @@ resetBtn.addEventListener(`click`, resetSquares);
   }
 
   // TIE
-function itsATie(){
-    gameOn = false;
+function itsATie() {
+  gameOn = false;
+  setTimeout(function() {
+    // SÄTT EN TIMEOUT
     if (confirm(`It´s a tie. Do you wanna play again?`)) {
-        resetSquares();
-        setUp();
-        play()
+      resetSquares();
+      setUp();
+      play();
     } else {
-        alert(`Don't be a sore loser`);
-        gameOn = false;
-    } 
+      alert(`Don't be a sore loser`);
+      gameOn = false;
+    }
+  }, 10);
 }
 
   // ENDGAME
 function endGame(){
-    // console.log(`End game`);
+    console.log(`End game`);
     gameOn = false; // spelet är av
-    if (confirm(`${player} won the game. Do you wanna play again?`)) {
+    console.log(`${player} won the game.`);
+
+    setTimeout(function(){
+    // SÄTT EN TIMEOUT
+    if (confirm(`${player} won the game. Do you wanna play again?`)) { // Poppar upp samtidigt som den vill rita winnaren
         resetSquares();
         setUp();
         play()
     } else {
         alert(`Don't be a sore loser`);
         gameOn = false;
-    }   
+    }  
+    }, 10);
+ 
 }
 
 setUp(); // sätter dit eventlyssnarna
