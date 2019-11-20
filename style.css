@@ -4,12 +4,13 @@ body{
     background-color: rgba(0, 0, 0, 0.507);
     background-repeat: no-repeat;
     background-size: cover;
+    font-family: 'Exo 2', sans-serif;
 }
 
 h1 {
     text-align: center;
-    color: rgba(245, 245, 245, 0.377);
-    font-size: 110px;
+    color: rgba(245, 245, 245, 0.541);
+    font-size: 105px;
     margin: 30px;
 }
 main {
@@ -21,41 +22,102 @@ main {
 }
 
 #gamefield {
-    width: 500px;
-    height: 500px;
+    width: 510px;
+    height: 510px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
-    align-content: space-around;
+    justify-content: center;
+    align-content: center;
 }
-
 
 .square {
+    border-radius: 8px;
+    margin: 5px;
     width: 150px;
     height: 150px;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.836);
     font-size: 150px;
     text-align: center;
-    line-height: 150px;
+    line-height: 135px;
 }
 
-button {
+.square:hover {
+    background-color: rgba(245, 245, 245, 0.185);
+}
+
+main button {
+    border-radius: 8px;
     font-size: 30px;
     width: 200px;
     height: 60px;
     margin: 25px;
-    background-color: rgba(245, 245, 245, 0.377);
+    background-color: rgba(255, 255, 255, 0.836);
     font-weight: bolder;
     border: none;
+    transition: all 0.5s linear;
+}
+main button:hover {
+    
+    font-size: 40px;
+    box-shadow: 0px 0px 29px 5px rgba(253, 253, 253, 0.747);
+    
+}
+#containerPopUp{
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    display: none;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center; 
+}
+#popUp {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    box-sizing: border-box;
+    border-radius: 8px;
+    padding: 10px;
+    width: 300px;
+    height: 200px;
+    background-image: url(marble2.jpg);
+    background-color: rgba(0, 0, 0, 0.507);
+    box-shadow: 0px 0px 62px 36px rgba(0,0,0,0.76);
 }
 
-@media (max-width: 560px) {
+#popUp p {
+    font-size: 25px;
+    margin-block-start: 10px;
+    margin-block-end: 10px;
+    font-weight: bolder;
+}
+
+
+#popUp button {
+    border-radius: 8px;
+    font-size: 30px;
+    width: 200px;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.836);
+    box-shadow: 0px 0px 27px 2px rgba(0,0,0,0.52);
+    font-weight: bolder;
+    border: none;
+    transition: all 0.5s linear;
+}
+#popUp button:hover {
+    box-shadow: 0px 0px 29px 5px rgba(0, 0, 0, 0.747);
+
+}
+
+@media (max-width: 550px) {
     #gamefield {
-        width: 300px;
-        height: 300px;
+        width: 410px;
+        height: 310px;
     }
     
     .square {
+        margin: 5px;
         width: 95px;
         height: 95px;
         font-size: 100px;
@@ -64,5 +126,8 @@ button {
     h1 {
         font-size: 50px;
         margin: 15px;
+    }
+    #containerPopUp{
+        height: 65vh;
     }
 }

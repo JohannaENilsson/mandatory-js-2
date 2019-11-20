@@ -1,6 +1,10 @@
 const gamefield = document.querySelector("#gamefield");
-let resetBtn = document.querySelector("button");
+let resetBtn = document.querySelector("main button");
+let replayBtn = document.querySelector(`#popUp button`);
 let squares = document.querySelectorAll(".square");
+let popUp = document.querySelector(`#containerPopUp`);
+let winP = document.querySelector(`#popUp p`);
+
 // console.log(squares);
 
 /// SEN if arr.length < 5 return. ingen kan vinna innan 5 drag
@@ -20,6 +24,8 @@ function play() {
 
 // Sätter dit eventlyssnarna
 function setUp() {
+  resetBtn.style.display = `block`; // Visar reset knappen igen
+  winP.innerHTML = ""; // Vinnartext rensas
   for (let i = 0; i < squares.length; i++) {
     squares[i].addEventListener(`click`, oneClick); // Sätter dit eventlyssnare på alla
     clickArr = []; // tömmer arrayen
@@ -27,13 +33,13 @@ function setUp() {
 }
 
 // WITCH PLAYER
-let player = `x`;
+let player = `X`;
 function witchPlayer() {
   console.log(`WitchPlayer`);
-  if (player === `x`) {
-    player = `o`;
-  } else if (player === `o`) {
-    player = `x`;
+  if (player === `X`) {
+    player = `O`;
+  } else if (player === `O`) {
+    player = `X`;
   }
 }
 
@@ -45,11 +51,15 @@ function oneClick(e) {
   // console.log(clickArr);
 
   witchPlayer();
-  if (player === "x") {
+  if (player === "X") {
+    square.style.color = `green`;
+    square.style.backgroundColor = `rgba(245, 245, 245, 0.377)`;
     square.innerHTML = "X";
     console.log(`Draw X`);
-  } else if (player === "o") {
+  } else if (player === "O") {
     square.innerHTML = "O";
+    square.style.color = `red`;
+    square.style.backgroundColor = `rgba(245, 245, 245, 0.377)`;
     console.log(`Draw O`);
   }
   if (clickArr.length >= 5) { // 
@@ -74,12 +84,18 @@ function oneClick(e) {
 
 // RESET
 function resetSquares() {
+  popUp.style.display = `none`; // Döljer popupen
   for (let square of squares) {
     square.innerHTML = ``; // rensar alla rutorna på innehåll
+    square.style.backgroundColor = ` rgba(255, 255, 255, 0.836)`;
     console.log(square);
   }
+  setUp(); // sätter dit eventlyssnarna
+  play(); // startar spelet
+
 }
 resetBtn.addEventListener(`click`, resetSquares);
+replayBtn.addEventListener(`click`,resetSquares);
 
 // WINNER OF THE GAME
 function isGameOver() {
@@ -202,16 +218,11 @@ function isGameOver() {
 // TIE
 function itsATie() {
   gameOn = false;
+  resetBtn.style.display = `none`;
   setTimeout(function() {
     // så att o el x hinner ritas ut
-    if (confirm(`It´s a tie. Do you wanna play again?`)) {
-      resetSquares();
-      setUp();
-      play();
-    } else {
-      alert(`Don't be a sore loser`);
-      gameOn = false;
-    }
+    popUp.style.display = `flex`;
+    winP.textContent = `This round is a tie`; // insert ${player} 
   }, 10);
 }
 
@@ -219,18 +230,12 @@ function itsATie() {
 function endGame() {
   console.log(`End game`);
   gameOn = false; // spelet är av
-  console.log(`${player} won the game.`);
-
-  setTimeout(function() {
+  console.log(`${player} won the game`);
+  resetBtn.style.display = `none`;
+  setTimeout(function() {     
     // så att o el x hinner ritas ut
-    if (confirm(`${player} won the game. Do you wanna play again?`)) {
-      resetSquares();
-      setUp();
-      play();
-    } else {
-      alert(`Don't be a sore loser`);
-      gameOn = false;
-    }
+    popUp.style.display = `flex`;
+    winP.textContent = `${player} won this round`; // insert ${player}  
   }, 10);
 }
 
