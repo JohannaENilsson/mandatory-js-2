@@ -17,7 +17,7 @@ const winningCombo = [
 ];
 
 
-console.log(squares);
+// console.log(squares);
 
 /// SEN if arr.length < 5 return. ingen kan vinna innan 5 drag
 // Behöver en arr med den vinnande kombinationerna.
@@ -28,6 +28,7 @@ console.log(squares);
 let gameOn = false; // Spelet är inte igång än
 let clickArr = []; // sparar clicken
 let xArr = []; // pusha upp x click square[i]
+let OArr = [];
 
 // PLAY -> Spelet startar
 function play() {
@@ -48,7 +49,7 @@ function setUp() {
 // WITCH PLAYER
 let player = `X`;
 function witchPlayer() {
-  console.log(`WitchPlayer`);
+  // console.log(`WitchPlayer`);
   if (player === `X`) {
     player = `O`;
   } else if (player === `O`) {
@@ -59,30 +60,32 @@ function witchPlayer() {
 //Click
 function oneClick(e) {
   let square = e.target; // Lussnar på vilken ruta som blivit clickad på
-  console.log(`Every click ${square}`);
+  console.log(`Every click ${square.dataset.id}`); // Hämtar id:et på resp ruta
   clickArr.push(square);
   // console.log(clickArr);
+  
 
   witchPlayer();
   if (player === "X") {
     square.style.color = `green`;
     square.style.backgroundColor = `rgba(245, 245, 245, 0.377)`;
     square.innerHTML = "X";
-    xArr.push(square);
-    console.log(xArr);
-    console.log(`Draw X`);
+    xArr.push(square.dataset.id);
+    console.log(`X == ${xArr}`);
+    // console.log(`Draw X`);
   } else if (player === "O") {
-    square.innerHTML = "O";
     square.style.color = `red`;
     square.style.backgroundColor = `rgba(245, 245, 245, 0.377)`;
-    console.log(`Draw O`);
+    square.innerHTML = "O";
+    OArr.push(square.dataset.id);
+    console.log(`O == ${OArr}`);
+    // console.log(`Draw O`);
   }
-  if (clickArr.length >= 5) { // 
-    console.log(`Click function`, gameOn);
-    console.log("ITS over 5");
+  // if (clickArr.length >= 5) { // Börjar kolla efter vinnare efter 5 click
+    // console.log(`Click function`, gameOn);
+    // console.log("ITS over 5");
     // Efter 5 click börja kolla efter vinst
     if (gameOn === false) {
-      
       // om detta händer ska den inte gå vidare
       return;
     }
@@ -93,8 +96,9 @@ function oneClick(e) {
     if (clickArr.length > 8) {
       // om arrayen är fyld med mer än 8, startas itsATie
       itsATie();
-    }
+    // }
   }
+  
   square.removeEventListener(`click`, oneClick); // plockar bort efter 1 click
 }
 
@@ -104,7 +108,7 @@ function resetSquares() {
   for (let square of squares) {
     square.innerHTML = ``; // rensar alla rutorna på innehåll
     square.style.backgroundColor = ` rgba(255, 255, 255, 0.836)`;
-    console.log(square);
+    // console.log(square);
   }
   setUp(); // sätter dit eventlyssnarna
   play(); // startar spelet
@@ -115,139 +119,36 @@ replayBtn.addEventListener(`click`,resetSquares);
 
 // WINNER OF THE GAME
 function isGameOver() {
-
   // LOOPAR WINNINGCOMBO
-console.log(winningCombo);
-for (let i = 0; i < winningCombo.length; i++) {
-  console.log(winningCombo[i]);
-  let winArr = winningCombo[i];
-  for (let j = 0; j < winArr.length; j++) {
-    console.log(winArr[j]);
-    for (let k = 0; k < xArr.length; k++) {
-      if (xArr[k] == winArr[j]) {
-        console.log("the best");
-        return true;
+  // console.log(winningCombo);
+  for (let i = 0; i < winningCombo.length; i++) {
+    // console.log("first" + winningCombo[i]);
+    let winArr = winningCombo[i];
+    for (let j = 0; j < winArr.length; j++) {
+      // console.log("second " + winArr[j]);
+
+      if (xArr.length > OArr.length) {
+        console.log("X against the winner");
+        //JÄMFÖR X mot winning
+        for (let k = 0; k < xArr.length; k++) {
+          console.log(xArr[i]);
+          if (xArr[k] === winArr[j]) {
+            console.log(`X ${xArr[k]} and ${winArr[j]}`);
+            return true;
+          }
+        }
+      }  if (OArr.length > xArr.length) {
+        console.log("O against the winner");
+        for (let l = 0; l < OArr.length; l++) {
+          console.log("O " + OArr[l] + " Winner " + winArr[j]);
+          if (OArr[l] === winArr[j]) {
+            console.log(`X ${OArr[k]} and ${winArr[j]}`);
+            return true;
+          }
+        }
       }
     }
   }
-}
-
-
-
-
-  // if (
-  //   squares[0].innerText === "X" &&
-  //   squares[1].innerText === "X" &&
-  //   squares[2].innerText === "X"
-  // ) {
-  //   console.log(`X winns`);
-  //   return true; // någon har vunnit
-  // } else if (
-  //   squares[3].innerText === "X" &&
-  //   squares[4].innerText === "X" &&
-  //   squares[5].innerText === "X"
-  // ) {
-  //   console.log(`X winns`);
-  //   return true;
-  // } else if (
-  //   squares[6].innerText === "X" &&
-  //   squares[7].innerText === "X" &&
-  //   squares[8].innerText === "X"
-  // ) {
-  //   console.log(`X winns`);
-  //   return true;
-  // } else if (
-  //   squares[0].innerText === "X" &&
-  //   squares[4].innerText === "X" &&
-  //   squares[8].innerText === "X"
-  // ) {
-  //   console.log(`X winns`);
-  //   return true;
-  // } else if (
-  //   squares[2].innerText === "X" &&
-  //   squares[4].innerText === "X" &&
-  //   squares[6].innerText === "X"
-  // ) {
-  //   console.log(`X winns`);
-  //   return true;
-  // } else if (
-  //   squares[0].innerText === "X" &&
-  //   squares[3].innerText === "X" &&
-  //   squares[6].innerText === "X"
-  // ) {
-  //   console.log(`X winns`);
-  //   return true;
-  // } else if (
-  //   squares[1].innerText === "X" &&
-  //   squares[4].innerText === "X" &&
-  //   squares[7].innerText === "X"
-  // ) {
-  //   console.log(`X winns`);
-  //   return true;
-  // } else if (
-  //   squares[2].innerText === "X" &&
-  //   squares[5].innerText === "X" &&
-  //   squares[8].innerText === "X"
-  // ) {
-  //   console.log(`X winns`);
-  //   return true;
-  // } else if (
-  //   squares[0].innerText === "O" &&
-  //   squares[1].innerText === "O" &&
-  //   squares[2].innerText === "O"
-  // ) {
-  //   console.log(`O winns`);
-  //   return true;
-  // } else if (
-  //   squares[3].innerText === "O" &&
-  //   squares[4].innerText === "O" &&
-  //   squares[5].innerText === "O"
-  // ) {
-  //   console.log(`O winns`);
-  //   return true;
-  // } else if (
-  //   squares[6].innerText === "O" &&
-  //   squares[7].innerText === "O" &&
-  //   squares[8].innerText === "O"
-  // ) {
-  //   console.log(`O winns`);
-  //   return true;
-  // } else if (
-  //   squares[0].innerText === "O" &&
-  //   squares[4].innerText === "O" &&
-  //   squares[8].innerText === "O"
-  // ) {
-  //   console.log(`O winns`);
-  //   return true;
-  // } else if (
-  //   squares[2].innerText === "O" &&
-  //   squares[4].innerText === "O" &&
-  //   squares[6].innerText === "O"
-  // ) {
-  //   console.log(`O winns`);
-  //   return true;
-  // } else if (
-  //   squares[0].innerText === "O" &&
-  //   squares[3].innerText === "O" &&
-  //   squares[6].innerText === "O"
-  // ) {
-  //   console.log(`O winns`);
-  //   return true;
-  // } else if (
-  //   squares[1].innerText === "O" &&
-  //   squares[4].innerText === "O" &&
-  //   squares[7].innerText === "O"
-  // ) {
-  //   console.log(`O winns`);
-  //   return true;
-  // } else if (
-  //   squares[2].innerText === "O" &&
-  //   squares[5].innerText === "O" &&
-  //   squares[8].innerText === "O"
-  // ) {
-  //   console.log(`O winns`);
-  //   return true;
-  // }
   return false; // ingen har vunnit än
 }
 
