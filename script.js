@@ -80,6 +80,7 @@ function oneClick(e) {
       itsATie();
     }
   }
+  square.removeEventListener(`click`, oneClick); // plockar bort efter 1 click
 }
 
 // RESET
