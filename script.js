@@ -14,7 +14,6 @@ const winningCombo = [
   [1, 4, 7],
   [2, 5, 8]
 ];
-// console.log(squares);
 
 let gameOn = false; // Spelet är inte igång än
 let clickArr = []; // sparar clicken
@@ -23,28 +22,24 @@ let OArr = [];
 
 // PLAY -> Spelet startar
 function play() {
-  gameOn = true;
-  // console.log('play call');
+  gameOn = true; // Spelet är på
 }
 
 // Sätter dit eventlyssnarna och rensar arrayer
 function setUp() {
   resetBtn.style.display = "block"; // Visar reset knappen igen
   winP.innerHTML = ""; // Vinnartext rensas
+  clickArr = []; // tömmer arrayen
+  xArr = [];
+  OArr = [];
   for (let i = 0; i < squares.length; i++) {
-    squares[i].addEventListener("click", oneClick); // Sätter dit eventlyssnare på alla
-    clickArr = []; // tömmer arrayen
-    xArr = [];
-    OArr = [];
+    squares[i].addEventListener("click", oneClick); // Sätter dit eventlyssnare på alla rutor
   }
 }
-
-// ***** LÄGG TILL ATT RANDOM BÖRJAR
 
 // WITCH PLAYER
 let player = "X";
 function witchPlayer() {
-  // console.log('WitchPlayer');
   if (player === "X") {
     player = "O";
   } else if (player === "O") {
@@ -55,9 +50,7 @@ function witchPlayer() {
 //Click
 function oneClick(e) {
   let square = e.target; // Lyssnar på vilken ruta som blivit clickad på
-  console.log(`Every click ${square.dataset.id}`); // Hämtar id:et på resp ruta
-  clickArr.push(square);
-  // console.log(clickArr);
+  clickArr.push(square); // Håller kolla på antalet klick som gjorts
 
   witchPlayer();
   if (player === "X") {
@@ -65,31 +58,26 @@ function oneClick(e) {
     square.style.backgroundColor = "rgba(245, 245, 245, 0.377)";
     square.textContent = "X";
     xArr.push(parseInt(square.dataset.id)); // Pushar upp square id:et i resp array
-    console.log(`X har klickat på ${xArr}`);
-    // console.log('Draw X');
   } else if (player === "O") {
     square.style.color = "red";
     square.style.backgroundColor = "rgba(245, 245, 245, 0.377)";
     square.textContent = "O";
     OArr.push(parseInt(square.dataset.id));
-    console.log(`O har klickat på ${OArr}`);
-    // console.log('Draw O');
   }
+
   if (clickArr.length >= 5) {
     // Börjar kolla efter vinnare efter 5 click. ingen kan vinna innan
-    console.log("Click function", gameOn);
-    console.log("ITS over 5");
-    // Efter 5 click börja kolla efter vinst
     if (gameOn === false) {
-      // om detta händer ska den inte gå vidare
+      // om detta händer ska den inte gå vidare och kolla nedan if satser
       return;
     }
     if (isGameOver() === true) {
       // om någon retunerar true
       endGame(); // stängs spelet av
     }
-    if (clickArr.length > 8) {
-      // om arrayen är fyld med mer än 8, startas itsATie
+
+    if (clickArr.length > 8 && isGameOver() !== true) {
+      // om arrayen är fyld med mer än 8 OCH ingen har vunnit startas itsATie
       itsATie();
     }
   }
@@ -102,7 +90,6 @@ function resetSquares() {
   for (let square of squares) {
     square.innerHTML = ""; // rensar alla rutorna på innehåll
     square.style.backgroundColor = " rgba(255, 255, 255, 0.836)";
-    // console.log(square);
   }
   setUp(); // sätter dit eventlyssnarna
   play(); // startar spelet
@@ -115,13 +102,10 @@ function isGameOver() {
   for (let i = 0; i < winningCombo.length; i++) {
     const winCombo = winningCombo[i];
 
-    console.log(xArr);
-    console.log(winCombo[0] + " - " + winCombo[1] + " - " + winCombo[2]);
-
     if (
-      xArr.includes(winCombo[0]) &&
-      xArr.includes(winCombo[1]) &&
-      xArr.includes(winCombo[2])
+      xArr.includes(winCombo[0]) && //kollar igenom alla 8 winCombos. 1:A siffran måste finnas i XArr
+      xArr.includes(winCombo[1]) && //kollar igenom alla 8 winCombos. 2:A siffran måste finnas i XArr
+      xArr.includes(winCombo[2]) //kollar igenom alla 8 winCombos. 3:A siffran måste finnas i XArr
     ) {
       return true;
     } else if (
@@ -137,25 +121,24 @@ function isGameOver() {
 
 // TIE
 function itsATie() {
-  gameOn = false;
+  gameOn = false; // spelet är av
   resetBtn.style.display = "none";
   setTimeout(function() {
     // så att o el x hinner ritas ut
     popUp.style.display = "flex";
-    winP.textContent = "This round is a tie"; // insert ${player}
+    winP.textContent = "This round is a tie";
   }, 10);
 }
 
 // ENDGAME
 function endGame() {
-  console.log("End game");
   gameOn = false; // spelet är av
   console.log(`${player} won the game`);
   resetBtn.style.display = "none";
   setTimeout(function() {
     // så att o el x hinner ritas ut
     popUp.style.display = "flex";
-    winP.textContent = `${player} won this round`; // insert ${player}
+    winP.textContent = `${player} won this round`; // Texten blir vilken spelare som vann
   }, 10);
 }
 
